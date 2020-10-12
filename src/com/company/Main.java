@@ -12,10 +12,12 @@ public class Main {
     public static void main(String[] args) {
         long startTime;
         long endTime;
-        int numTests = 90;
-        int tooLong = 10000000;
-
-
+        int numTests = 50;
+        long previousTimes[] = new long[4];
+        previousTimes[0] = 1;
+        previousTimes[1] = 1;
+        previousTimes[2] = 1;
+        previousTimes[3] = 1;
 
         // Table Header information.
         String emptyString = "";
@@ -25,69 +27,44 @@ public class Main {
         System.out.println(header);
         System.out.println(headerTwo);
 
-
-        for(int n = 0; n < numTests; n++){
-            long previousTime = 1;
+        for(int n = 3; n < numTests; n++){
+            // Formatting.
+            System.out.format("%-20s", n);
+            startTime = getCpuTime();
+            fibRecur(n);
+            endTime = getCpuTime();
+            System.out.format("%-20s", endTime - startTime);
+            System.out.format("%-20s", ((endTime - startTime) / previousTimes[0]));
+            previousTimes[0] = endTime - startTime;
+            System.out.format("%-20s", Math.pow(2, n) / Math.pow(2, n/2));
 
             // Formatting.
-            if(previousTime >= tooLong) {
-                System.out.format("%-20s", n);
-                startTime = getCpuTime();
-                fibRecur(n);
-                endTime = getCpuTime();
-                System.out.format("%-20s", endTime - startTime);
-                System.out.format("%-20s", ((endTime - startTime) / previousTime));
-                previousTime = endTime - startTime;
-                System.out.format("%-20s", (Math.pow(n, 3) / Math.pow(n / 2, 3)));
-            }
-        }
+            startTime = getCpuTime();
+            fibCache(n);
+            endTime = getCpuTime();
+            System.out.format("%-20s", endTime - startTime);
+            System.out.format("%-20s", ((endTime - startTime) / previousTimes[1]));
+            previousTimes[1] = endTime - startTime;
+            System.out.format("%-20s", n / (n/2));
 
-        for(int n = 0; n < numTests; n++){
-            long previousTime = 1;
-
-            // Formatting.
-            if(previousTime >= tooLong) {
-                System.out.format("%-20s", n);
-                startTime = getCpuTime();
-                fibCache(n);
-                endTime = getCpuTime();
-                System.out.format("%-20s", endTime - startTime);
-                System.out.format("%-20s", ((endTime - startTime) / previousTime));
-                previousTime = endTime - startTime;
-                System.out.format("%-20s", (Math.pow(n, 3) / Math.pow(n / 2, 3)));
-            }
-        }
-
-        for(int n = 0; n < numTests; n++){
-            long previousTime = 1;
-
-            // Formatting.
-            if(previousTime >= tooLong) {
-                System.out.format("%-20s", n);
+                // Formatting.
                 startTime = getCpuTime();
                 fibLoop(n);
                 endTime = getCpuTime();
                 System.out.format("%-20s", endTime - startTime);
-                System.out.format("%-20s", ((endTime - startTime) / previousTime));
-                previousTime = endTime - startTime;
-                System.out.format("%-20s", (Math.pow(n, 3) / Math.pow(n / 2, 3)));
-            }
-        }
+                System.out.format("%-20s", ((endTime - startTime) / previousTimes[2]));
+                previousTimes[2] = endTime - startTime;
+                System.out.format("%-20s", n / (n/2));
 
-        for(int n = 0; n < numTests; n++){
-            long previousTime = 1;
-
-            // Formatting.
-            if(previousTime >= tooLong) {
-                System.out.format("%-20s", n);
+                // Formatting.
                 startTime = getCpuTime();
                 fibMatrix(n);
                 endTime = getCpuTime();
                 System.out.format("%-20s", endTime - startTime);
-                System.out.format("%-20s", ((endTime - startTime) / previousTime));
-                previousTime = endTime - startTime;
-                System.out.format("%-20s", (Math.pow(n, 3) / Math.pow(n / 2, 3)));
-            }
+                System.out.format("%-20s", ((endTime - startTime) / previousTimes[3]));
+                previousTimes[3] = endTime - startTime;
+                System.out.format("%-20s", Math.log(n) / Math.log(n/2));
+                System.out.println();
         }
     }
 
